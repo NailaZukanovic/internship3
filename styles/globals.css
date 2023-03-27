@@ -1,0 +1,75 @@
+/* Style for the container */
+div {
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+
+/* Style for the headings */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Style for the grid */
+.Grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1rem;
+}
+
+/* Style for the paper */
+.Paper {
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+
+/* Style for the search input */
+input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 1rem;
+}
+
+/* Style for the search button */
+button {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+/* Style for the table */
+.Table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+/* Style for the table header */
+.Table thead {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Style for the table rows */
+.Table tr {
+  border-bottom: 1px solid #ccc;
+}
+
+/* Style for the table cells */
+.Table td, .Table th {
+  padding: 0.5rem;
+  text-align: left;
+}
+
+/* Style for the city name cell */
+.Table td:first-child {
+  color: #fff;
+}
+
+/* Style for the country name cell */
+.Table td:nth-child(2) {
+  color: #fff;
+}
