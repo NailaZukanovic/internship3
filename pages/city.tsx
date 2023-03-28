@@ -5,18 +5,15 @@ import { Grid, Paper } from "@mantine/core";
 import { useRouter } from "next/router";
 import { Weather } from "./interfaces/weatherInterface";
 import axios from 'axios';
-import { cityContext } from './context/cityContext';
 
 const City = (props: Weather[]) => {
-  const {searchCity, setSearchCity} = useContext(cityContext);
   const router = useRouter();
   const weatherData = props;
-  const [city, setCity] = useState<string | undefined | string[]>('');
+  const [city, setCity] = useState<string | undefined | string[]>(router.query.city);
 
   useEffect( () => {
     setCity(router.query.city);
-    setSearchCity(city as string);
-  }, [city]);
+  }, [router.query.city]);
 
   return (
     <div>
@@ -38,8 +35,8 @@ const City = (props: Weather[]) => {
 
 export default City;
 
-export async function getServerSideProps() {
-  const {searchCity, setSearchCity} = useContext(cityContext);
+export async function getServerSideProps({query}) {
+  const searchCity = query.city as string;
   const url = `http://api.openweathermap.org/geo/1.0/direct?q=${searchCity}&limit=5&appid=0052724c46eaa7a20e12e875432f7b98`;
   const response = await axios.get(url);
   const data = response.data;
