@@ -3,20 +3,19 @@ import styles from '@/styles/Home.module.css'
 import { GetServerSideProps } from 'next';
 
 import { Table, Text } from '@mantine/core';
-import { getCitiesByCountry } from './api/cities';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { City } from './interfaces/cityInterface';
+import axios from 'axios';
 
-export default function Home() {
-
-  const [cities, setCities] = useState<City[] | undefined>([]);
+export default function Home(props: City[]) {
   const [searchClicked, setSearchClicked] = useState(false);
   const [searchText, setSearchText] = useState('');
 
+  const cities = props;
   useEffect(() => {
-    getCitiesByCountry(searchText).then((result) => setCities(result));
-  }, [searchClicked]);
+    console.log(props);
+  });
 
 
   const handleSearch = () => {
@@ -73,3 +72,13 @@ export default function Home() {
   )
 }
 
+export async function getServerSideProps() {
+
+  let nesto = await fetch("https://countriesnow.space/api/v0.1/countries/population/cities")
+    .then(response => response.text())
+    let myData = JSON.parse(nesto).data;
+    console.log(myData);
+    return {props: {
+      myData
+    } }
+}

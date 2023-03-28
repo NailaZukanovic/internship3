@@ -1,25 +1,21 @@
 "use client"
 import { GetServerSideProps, GetServerSidePropsResult } from 'next';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Grid, Paper } from "@mantine/core";
-import { getWeatherForCity } from "./api/weather";
 import { useRouter } from "next/router";
 import { Weather } from "./interfaces/weatherInterface";
 import axios from 'axios';
-import { Props } from 'next/script';
+import { cityContext } from './context/cityContext';
 
-const City = () => {
+const City = (props: Weather[]) => {
+  const {searchCity, setSearchCity} = useContext(cityContext);
   const router = useRouter();
-  const [weatherData, setWeatherData] = useState<Weather[] | undefined>([]);
+  const weatherData = props;
   const [city, setCity] = useState<string | undefined | string[]>('');
 
   useEffect( () => {
     setCity(router.query.city);
-    if(city !== '')
-      getWeatherForCity(city as string).then((data) => setWeatherData(data));
-    else{
-      console.log("nije")
-    }
+    setSearchCity(city as string);
   }, [city]);
 
   return (
@@ -41,3 +37,15 @@ const City = () => {
 }
 
 export default City;
+
+export async function getServerSideProps() {
+  const {searchCity, setSearchCity} = useContext(cityContext);
+  const url = `http://api.openweathermap.org/geo/1.0/direct?q=${searchCity}&limit=5&appid=0052724c46eaa7a20e12e875432f7b98`;
+  const response = await axios.get(url);
+  const data = response.data;
+  return{
+    props: {
+      data
+    }
+  }
+}
